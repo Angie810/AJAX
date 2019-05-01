@@ -1,0 +1,51 @@
+﻿@model AjaxÖvning.Models.Movie[]
+@{ ViewBag.Title = "All movies"; }
+
+<h1>Index</h1>
+
+<ul>
+    @foreach (var item in Model)
+    {
+        <li>@item.Name </li>
+    }
+</ul>
+
+
+<label>Enter Movie ID</label>
+
+<input type="text" id="MovieID" value="" />
+<button id="btnMovieHTML">Get Movie (HTML)</button>
+<button id="btnMovieJSON">Get Movie (JSON)</button>
+
+<div id="divResult"></div>
+@section scripts
+{
+    <script>
+        $("#btnMovieHTML").click(function () {
+            var id = $("#MovieID").val();
+            $.ajax({
+                url: "Home/MovieBox/"+id,
+                type: "GET",
+                success: function (result) {
+                    $("#divResult").html(result);
+                }
+            });
+
+        });
+
+        $("#btnMovieJSON").click(function () {
+            var id = $("#MovieID").val();
+            $.ajax({
+                url: "Home/MovieBoxJSON/"+id,
+                type: "GET",
+                success: function (result) {
+                    var html = "<div>" + result.name +result.description + "</div>";
+                    $("#divResult").html(html);
+                }
+            });
+        });
+    </script>
+}
+
+<a href="/home/about">Throw an Exception</a>
+<a href="/Home/NoneExist">Non existing page</a>
